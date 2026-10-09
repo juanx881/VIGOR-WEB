@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VIGOR: estrategia, creatividad y marketing digital para marcas que quieren crecer.">
+  <title>VIGOR | Marketing con intención</title>
+  <style>
+    :root {
+      --black: #0b0b0b;
+      --panel: #141414;
+      --panel-2: #1b1b1b;
+      --gold: #d8b45a;
+      --gold-light: #f0d58c;
+      --white: #f8f7f3;
+      --muted: #b7b5ae;
+      --line: rgba(216,180,90,.25);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--black); color: var(--white);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    .container { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+    .topline { height: 4px; background: linear-gradient(90deg, var(--gold), #fff0bd, #8e6a20); }
+    header {
+      position: sticky; top: 0; z-index: 10; background: rgba(11,11,11,.92);
+      backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav { min-height: 78px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+    .logo { font-size: 1.55rem; font-weight: 900; letter-spacing: .18em; }
+    .logo span { color: var(--gold); }
+    .nav-links { display:flex; gap:26px; align-items:center; color:#dedbd3; font-size:.92rem; }
+    .nav-links a:hover { color:var(--gold-light); }
+    .menu-btn { display:none; border:1px solid var(--line); color:var(--white); background:transparent; padding:8px 12px; border-radius:10px; }
+    .btn { display:inline-flex; justify-content:center; align-items:center; gap:8px; border:1px solid var(--gold); border-radius:999px; padding:12px 20px; font-weight:750; transition:.2s; cursor:pointer; }
+    .btn-primary { background:var(--gold); color:#111; }
+    .btn-primary:hover { background:var(--gold-light); transform:translateY(-1px); }
+    .btn-outline { color:var(--white); background:transparent; }
+    .btn-outline:hover { background:rgba(216,180,90,.1); }
+    .eyebrow { color:var(--gold); text-transform:uppercase; letter-spacing:.2em; font-size:.76rem; font-weight:800; }
+    .hero { padding:94px 0 82px; overflow:hidden; position:relative; }
+    .hero:before { content:""; position:absolute; width:500px; height:500px; border-radius:50%; right:-160px; top:-120px; background:radial-gradient(circle,rgba(216,180,90,.15),transparent 68%); pointer-events:none; }
+    .hero-grid { display:grid; grid-template-columns:1.12fr .88fr; gap:56px; align-items:center; position:relative; }
+    h1 { font-size:clamp(2.8rem, 6vw, 5.6rem); line-height:.99; letter-spacing:-.055em; margin:18px 0 24px; max-width:720px; }
+    h1 em { color:var(--gold); font-style:normal; }
+    .hero p { color:var(--muted); max-width:560px; font-size:1.08rem; }
+    .hero-actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:30px; }
+    .hero-note { display:flex; gap:12px; align-items:center; margin-top:34px; color:#d6d2c9; font-size:.86rem; }
+    .dot { width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 15px var(--gold); }
+    .hero-art { min-height:400px; position:relative; display:grid; place-items:center; }
+    .orbit { width:min(390px, 100%); aspect-ratio:1; border:1px solid rgba(216,180,90,.34); border-radius:50%; display:grid; place-items:center; position:relative; transform:rotate(-12deg); }
+    .orbit:before,.orbit:after { content:""; position:absolute; border:1px solid rgba(216,180,90,.23); border-radius:50%; inset:28px; }
+    .orbit:after { inset:65px; }
+    .monogram { width:190px; height:190px; border-radius:50%; display:grid; place-items:center; background:linear-gradient(145deg,#f0d58c,#9c7427); color:#101010; font-weight:950; font-size:4.7rem; letter-spacing:-.12em; box-shadow:0 20px 80px rgba(216,180,90,.18); transform:rotate(12deg); }
+    .float-card { position:absolute; background:rgba(22,22,22,.94); border:1px solid var(--line); border-radius:14px; padding:14px 17px; box-shadow:0 18px 50px #0008; }
+    .float-card strong { display:block; color:var(--gold-light); font-size:.95rem; }
+    .float-card small { color:var(--muted); }
+    .fc-one { top:45px; right:0; }.fc-two { bottom:45px; left:0; }
+    section { padding:82px 0; }
+    .section-head { max-width:650px; margin-bottom:36px; }
+    h2 { font-size:clamp(2rem,4vw,3.3rem); line-height:1.08; letter-spacing:-.04em; margin:10px 0 15px; }
+    .section-head p { color:var(--muted); margin:0; }
+    .services { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .service-card,.plan-card,.contact-card { background:linear-gradient(145deg,#181818,#101010); border:1px solid rgba(255,255,255,.09); border-radius:var(--radius); padding:27px; }
+    .service-card:hover { border-color:var(--line); transform:translateY(-3px); transition:.2s; }
+    .number { color:var(--gold); font-weight:850; letter-spacing:.12em; font-size:.8rem; }
+    .service-card h3 { font-size:1.35rem; margin:22px 0 10px; }
+    .service-card p { color:var(--muted); font-size:.95rem; margin:0; }
+    .service-card ul,.plan-card ul { list-style:none; padding:0; margin:20px 0 0; color:#d4d1c9; font-size:.9rem; }
+    .service-card li,.plan-card li { margin:9px 0; }
+    .service-card li:before,.plan-card li:before { content:"✦"; color:var(--gold); margin-right:9px; }
+    .plans-bg { background:#101010; border-top:1px solid #222; border-bottom:1px solid #222; }
+    .plans { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; align-items:stretch; }
+    .plan-card { display:flex; flex-direction:column; }
+    .plan-card.featured { border-color:var(--gold); background:linear-gradient(150deg,rgba(216,180,90,.12),#141414 50%); position:relative; }
+    .popular { color:#111; background:var(--gold); display:inline-block; font-size:.7rem; font-weight:900; padding:4px 10px; border-radius:999px; align-self:flex-start; text-transform:uppercase; letter-spacing:.08em; }
+    .plan-card h3 { margin:16px 0 2px; font-size:1.45rem; }
+    .price { font-size:1.4rem; color:var(--gold-light); font-weight:800; margin:7px 0; }
+    .price small { font-size:.8rem; color:var(--muted); font-weight:500; }
+    .plan-card p { color:var(--muted); font-size:.92rem; }
+    .plan-card .btn { margin-top:auto; }
+    .process { display:grid; grid-template-columns:.8fr 1.2fr; gap:55px; align-items:start; }
+    .process-list { border-top:1px solid var(--line); }
+    .process-row { display:grid; grid-template-columns:60px 1fr; gap:15px; padding:21px 0; border-bottom:1px solid var(--line); }
+    .process-row b { color:var(--gold); }
+    .process-row h3 { margin:0 0 5px; font-size:1.08rem; }
+    .process-row p { color:var(--muted); margin:0; font-size:.92rem; }
+    .contact-grid { display:grid; grid-template-columns:.8fr 1.2fr; gap:22px; }
+    .contact-copy p { color:var(--muted); }
+    .contact-copy .contact-line { display:flex; gap:12px; align-items:center; margin-top:22px; color:#e7e2d7; }
+    .contact-line span { color:var(--gold); }
+    form { display:grid; gap:14px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    label { display:block; color:#dedbd3; font-size:.85rem; margin-bottom:6px; }
+    input,select,textarea { width:100%; border:1px solid #37342e; background:#0c0c0c; color:var(--white); border-radius:10px; padding:12px 13px; outline:none; }
+    input:focus,select:focus,textarea:focus { border-color:var(--gold); }
+    textarea { min-height:110px; resize:vertical; }
+    .form-note { color:var(--muted); font-size:.78rem; margin:0; }
+    .status { display:none; border:1px solid var(--line); border-radius:10px; padding:12px; color:var(--gold-light); font-size:.9rem; }
+    footer { border-top:1px solid #282828; padding:27px 0; color:var(--muted); font-size:.85rem; }
+    .footer-inner { display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; align-items:center; }
+    .chat-toggle { position:fixed; right:22px; bottom:22px; z-index:30; border:0; border-radius:999px; padding:14px 19px; background:var(--gold); color:#111; font-weight:850; box-shadow:0 10px 35px #0009; cursor:pointer; }
+    .chat-window { position:fixed; right:22px; bottom:86px; width:min(360px,calc(100vw - 28px)); z-index:30; background:#121212; border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:0 20px 70px #000b; display:none; }
+    .chat-window.open { display:flex; flex-direction:column; }
+    .chat-head { padding:16px; display:flex; justify-content:space-between; align-items:center; background:#1b1b1b; border-bottom:1px solid #333; }
+    .chat-head strong { display:block; }.chat-head small { color:var(--muted); }
+    .chat-close { color:white; border:0; background:transparent; font-size:1.4rem; cursor:pointer; }
+    .chat-messages { padding:14px; height:280px; overflow:auto; display:flex; flex-direction:column; gap:10px; }
+    .bubble { max-width:88%; padding:10px 12px; border-radius:12px; font-size:.88rem; white-space:pre-wrap; }
+    .bot { background:#242424; color:#f3f0e8; align-self:flex-start; border-bottom-left-radius:3px; }
+    .user { background:#d8b45a; color:#111; align-self:flex-end; border-bottom-right-radius:3px; }
+    .chat-choices { padding:0 12px 10px; display:flex; flex-wrap:wrap; gap:7px; }
+    .chat-choices button { background:#1b1b1b; border:1px solid var(--line); color:var(--gold-light); border-radius:999px; padding:7px 10px; cursor:pointer; font-size:.78rem; }
+    .chat-input-row { display:flex; gap:8px; padding:12px; border-top:1px solid #333; }
+    .chat-input-row input { min-width:0; padding:10px; }
+    .chat-input-row button { background:var(--gold); border:0; border-radius:10px; padding:0 14px; font-weight:800; cursor:pointer; }
+    @media (max-width: 800px) {
+      .nav-links { display:none; position:absolute; top:78px; left:0; right:0; padding:18px 22px; background:#111; flex-direction:column; align-items:flex-start; border-bottom:1px solid #333; }
+      .nav-links.show { display:flex; }.menu-btn { display:block; }
+      .nav .nav-cta { display:none; }
+      .hero { padding:65px 0 55px; }.hero-grid,.process,.contact-grid { grid-template-columns:1fr; gap:32px; }
+      .hero-art { min-height:340px; }.orbit { width:300px; }.monogram { width:145px; height:145px; font-size:3.7rem; }
+      .services,.plans { grid-template-columns:1fr; }
+      section { padding:62px 0; }
+    }
+    @media (max-width: 480px) {
+      .container { width:calc(100% - 28px); }.form-row { grid-template-columns:1fr; }
+      .hero-art { min-height:285px; }.orbit { width:245px; }.monogram { width:120px; height:120px; font-size:3rem; }
+      .fc-one { right:-2px; top:18px; }.fc-two { left:-2px; bottom:20px; }.float-card { padding:10px 12px; }
+      .chat-toggle { right:14px; bottom:14px; }.chat-window { right:14px; bottom:76px; }
+    }
+
+    /* Refinamiento visual premium VIGOR */
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+    :root {
+      --black: #090909;
+      --panel: #111110;
+      --panel-2: #171715;
+      --gold: #c6a45a;
+      --gold-light: #e6d3a0;
+      --white: #f5f2eb;
+      --muted: #aaa69c;
+      --line: rgba(198,164,90,.22);
+      --radius: 3px;
+    }
+    body {
+      background: #090909;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      letter-spacing: .005em;
+    }
+    .topline { height: 2px; background: var(--gold); }
+    header { background: rgba(9,9,9,.96); border-bottom: 1px solid rgba(255,255,255,.07); }
+    .nav { min-height: 88px; }
+    .logo { font-size: 1.35rem; letter-spacing: .26em; font-weight: 700; }
+    .logo span { color: var(--gold); }
+    .nav-links { gap: 32px; font-size: .78rem; letter-spacing: .09em; text-transform: uppercase; }
+    .nav-links a { color: #c7c2b7; transition: color .2s ease; }
+    .btn { border-radius: 2px; padding: 14px 22px; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; }
+    .btn-primary { background: var(--gold); border-color: var(--gold); color: #111; }
+    .btn-primary:hover { background: #e0c47e; }
+    .btn-outline { border-color: rgba(245,242,235,.28); color: var(--white); }
+    .btn-outline:hover { border-color: var(--gold); background: transparent; }
+    .eyebrow { font-size: .68rem; letter-spacing: .25em; font-weight: 700; }
+    .hero { padding: 112px 0 105px; }
+    .hero:before { width: 600px; height: 600px; right: -180px; top: -90px; background: radial-gradient(circle,rgba(198,164,90,.09),transparent 70%); }
+    .hero-grid { grid-template-columns: 1.08fr .92fr; gap: 70px; }
+    h1, h2, .service-card h3, .plan-card h3, .process-row h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 500;
+      letter-spacing: -.035em;
+    }
+    h1 { font-size: clamp(3.3rem, 6.5vw, 6rem); line-height: .99; margin: 25px 0 28px; }
+    h1 em { color: var(--gold-light); }
+    .hero p { font-size: 1rem; line-height: 1.9; max-width: 500px; color: #b8b3a8; }
+    .hero-actions { margin-top: 34px; gap: 14px; }
+    .hero-note { margin-top: 42px; font-size: .76rem; letter-spacing: .025em; color: #a9a397; }
+    .dot { width: 5px; height: 5px; background: var(--gold); box-shadow: none; }
+    .hero-art { min-height: 440px; }
+    .orbit { width: min(400px,100%); border-color: rgba(198,164,90,.27); }
+    .orbit:before,.orbit:after { border-color: rgba(198,164,90,.17); }
+    .monogram { width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle at 32% 25%,#f0dfb2,#c6a45a 62%,#81652e); font-family: 'Playfair Display', Georgia, serif; font-size: 4.4rem; box-shadow: 0 22px 75px rgba(0,0,0,.5); }
+    .float-card { border-radius: 2px; background: rgba(16,16,15,.96); border: 1px solid rgba(198,164,90,.2); padding: 15px 18px; box-shadow: none; }
+    .float-card strong { font-size: .72rem; letter-spacing: .13em; font-weight: 600; }
+    .float-card small { font-size: .72rem; }
+    section { padding: 100px 0; }
+    .section-head { margin-bottom: 46px; }
+    h2 { font-size: clamp(2.4rem, 4.4vw, 3.8rem); line-height: 1.08; margin: 14px 0 18px; }
+    .section-head p { max-width: 590px; font-size: .96rem; line-height: 1.85; color: #aaa69c; }
+    .services { gap: 0; border-top: 1px solid rgba(198,164,90,.22); border-bottom: 1px solid rgba(198,164,90,.22); }
+    .service-card { background: transparent; border: 0; border-right: 1px solid rgba(198,164,90,.18); border-radius: 0; padding: 30px 28px 34px; transition: background .25s ease; }
+    .service-card:first-child { padding-left: 0; }
+    .service-card:last-child { border-right: 0; }
+    .service-card:hover { transform: none; background: rgba(255,255,255,.018); }
+    .number { font-size: .67rem; letter-spacing: .18em; color: var(--gold); }
+    .service-card h3 { font-size: 1.65rem; line-height: 1.2; margin: 34px 0 13px; }
+    .service-card p { line-height: 1.8; font-size: .9rem; color: #aaa69c; }
+    .service-card ul { margin-top: 25px; font-size: .82rem; color: #d0cbc0; }
+    .service-card li { margin: 12px 0; }
+    .service-card li:before,.plan-card li:before { content: "—"; color: var(--gold); margin-right: 10px; }
+    .plans-bg { background: #0e0e0d; border-top: 1px solid #24231f; border-bottom: 1px solid #24231f; }
+    .plans { gap: 14px; }
+    .plan-card { background: #111110; border: 1px solid #2c2a25; border-radius: 2px; padding: 30px; }
+    .plan-card.featured { background: linear-gradient(160deg,rgba(198,164,90,.09),#111110 48%); border-color: var(--gold); }
+    .popular { border-radius: 0; padding: 5px 9px; background: var(--gold); letter-spacing: .13em; font-size: .62rem; }
+    .plan-card h3 { font-size: 1.9rem; margin: 21px 0 0; }
+    .price { font-size: 1.05rem; font-weight: 600; letter-spacing: .06em; }
+    .price small { font-size: .75rem; }
+    .plan-card p { color: #aaa69c; line-height: 1.8; font-size: .88rem; min-height: 70px; }
+    .plan-card ul { margin: 10px 0 30px; font-size: .84rem; line-height: 1.6; }
+    .plan-card .btn { margin-top: auto; width: 100%; }
+    .process { gap: 80px; }
+    .process-row { grid-template-columns: 45px 1fr; padding: 25px 0; }
+    .process-row b { font-size: .8rem; font-weight: 600; }
+    .process-row h3 { font-size: 1.3rem; }
+    .process-row p { line-height: 1.8; color: #aaa69c; }
+    .contact-grid { gap: 60px; }
+    .contact-card { background: #111110; border: 1px solid #2b2924; border-radius: 2px; padding: 32px; }
+    .contact-copy p { line-height: 1.9; }
+    .contact-line { font-size: .9rem; }
+    label { font-size: .76rem; letter-spacing: .035em; }
+    input,select,textarea { background: #0b0b0a; border-color: #34312a; border-radius: 2px; padding: 14px; font-size: .9rem; }
+    input:focus,select:focus,textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 1px rgba(198,164,90,.12); }
+    form > .btn { width: 100%; }
+    .form-note { line-height: 1.7; }
+    footer { border-top: 1px solid #24231f; padding: 32px 0; }
+    .chat-toggle { border-radius: 2px; padding: 15px 19px; background: var(--gold); box-shadow: 0 8px 28px #0008; font-size: .8rem; letter-spacing: .035em; }
+    .chat-window { background: #10100f; border-color: rgba(198,164,90,.3); border-radius: 3px; }
+    .chat-head { background: #181816; }
+    .chat-choices button { border-radius: 2px; }
+    .chat-input-row button { border-radius: 2px; }
+    @media (max-width: 800px) {
+      .nav { min-height: 76px; }
+      .nav-links { gap: 20px; font-size: .78rem; }
+      .hero { padding: 76px 0 60px; }
+      .hero-grid { gap: 30px; }
+      .hero-art { min-height: 350px; }
+      section { padding: 72px 0; }
+      .services { grid-template-columns: 1fr; }
+      .service-card,.service-card:first-child { padding: 26px 0; border-right: 0; border-bottom: 1px solid rgba(198,164,90,.18); }
+      .service-card:last-child { border-bottom: 0; }
+      .service-card h3 { margin-top: 18px; }
+      .plans { grid-template-columns: 1fr; }
+      .plan-card p { min-height: 0; }
+      .process { gap: 24px; }
+      .contact-grid { gap: 30px; }
+    }
+    @media (max-width: 480px) {
+      h1 { font-size: clamp(3rem, 15vw, 4.4rem); }
+      .hero-art { min-height: 285px; }
+      .orbit { width: 245px; }
+      .monogram { width: 120px; height: 120px; font-size: 3rem; }
+      .contact-card { padding: 20px; }
+      .float-card { padding: 10px 12px; }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="topline"></div>
+  <header>
+    <div class="container nav">
+      <a class="logo" href="#inicio" aria-label="VIGOR inicio">VIGOR<span>.</span></a>
+      <nav class="nav-links" id="navLinks" aria-label="Navegación principal">
+        <a href="#servicios">Servicios</a><a href="#planes">Planes</a><a href="#metodo">Método</a><a href="#contacto">Contacto</a>
+      </nav>
+      <a class="btn btn-primary nav-cta" href="#contacto">Cotizar proyecto ↗</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Agencia de marketing digital</div>
+          <h1>Tu marca merece más que <em>presencia.</em></h1>
+          <p>En VIGOR combinamos estrategia, creatividad y performance para construir marcas memorables y convertir ideas en crecimiento.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#contacto">Hablemos de tu proyecto ↗</a>
+            <a class="btn btn-outline" href="#servicios">Explorar servicios</a>
+          </div>
+          <div class="hero-note"><span class="dot"></span> Ideas claras. Creatividad con intención. Marketing que evoluciona.</div>
+        </div>
+        <div class="hero-art" aria-label="Identidad visual de VIGOR">
+          <div class="orbit"><div class="monogram">V.</div></div>
+          <div class="float-card fc-one"><strong>ESTRATEGIA</strong><small>Dirección para crecer</small></div>
+          <div class="float-card fc-two"><strong>CREATIVIDAD +</strong><small>Ideas que se recuerdan</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="servicios">
+      <div class="container">
+        <div class="section-head"><div class="eyebrow">Lo que hacemos</div><h2>Tres áreas. Una marca más fuerte.</h2><p>Soluciones de marketing pensadas para que tu negocio comunique mejor, conecte con su audiencia y avance con propósito.</p></div>
+        <div class="services">
+          <article class="service-card"><div class="number">01 / ESTRATEGIA</div><h3>Dirección con propósito</h3><p>Definimos una ruta para que cada acción tenga sentido y responda a tus objetivos de negocio.</p><ul><li>Estrategia de marca</li><li>Plan de contenidos</li><li>Investigación de audiencia</li></ul></article>
+          <article class="service-card"><div class="number">02 / CREATIVIDAD</div><h3>Ideas que destacan</h3><p>Construimos una presencia visual coherente, atractiva y alineada con la personalidad de tu marca.</p><ul><li>Diseño para redes sociales</li><li>Identidad y comunicación visual</li><li>Creación de contenido</li></ul></article>
+          <article class="service-card"><div class="number">03 / PERFORMANCE</div><h3>Acciones que avanzan</h3><p>Activamos y medimos campañas digitales para entender qué funciona y optimizar cada paso.</p><ul><li>Publicidad digital</li><li>Gestión de redes sociales</li><li>Reportes y optimización</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="plans-bg" id="planes">
+      <div class="container">
+        <div class="section-head"><div class="eyebrow">Planes VIGOR</div><h2>El impulso que tu marca necesita.</h2><p>Elige el punto de partida. Ajustamos el alcance de cada plan según las necesidades de tu negocio.</p></div>
+        <div class="plans">
+          <article class="plan-card"><div class="number">PARA EMPEZAR</div><h3>Básico</h3><div class="price">A cotizar</div><p>Para marcas que quieren mantener una presencia digital constante.</p><ul><li>8–12 publicaciones al mes</li><li>Diseño de contenido para redes</li><li>Calendario de publicaciones</li></ul><a class="btn btn-outline" href="#contacto" data-plan="Básico">Consultar plan</a></article>
+          <article class="plan-card featured"><span class="popular">Más completo</span><h3>Crecimiento</h3><div class="price">A cotizar</div><p>Para negocios que buscan fortalecer su comunidad y ampliar su alcance.</p><ul><li>Gestión de redes sociales</li><li>Planeación de pauta digital</li><li>Reportes de resultados</li></ul><a class="btn btn-primary" href="#contacto" data-plan="Crecimiento">Quiero crecer ↗</a></article>
+          <article class="plan-card"><div class="number">SOLUCIÓN INTEGRAL</div><h3>Premium</h3><div class="price">A cotizar</div><p>Para marcas listas para trabajar con una visión estratégica integral.</p><ul><li>Servicios del plan Crecimiento</li><li>Estrategia de marca avanzada</li><li>Automatización según necesidades</li></ul><a class="btn btn-outline" href="#contacto" data-plan="Premium">Consultar plan</a></article>
+        </div>
+        <p class="form-note" style="margin-top:18px">Los precios se definen según el alcance, los objetivos y las necesidades de cada proyecto.</p>
+      </div>
+    </section>
+
+    <section id="metodo">
+      <div class="container process">
+        <div class="section-head"><div class="eyebrow">Nuestro método</div><h2>Del primer concepto al siguiente nivel.</h2><p>Un proceso claro para trabajar en equipo, mantener el foco y tomar decisiones con intención.</p></div>
+        <div class="process-list">
+          <div class="process-row"><b>01</b><div><h3>Escuchamos</h3><p>Conocemos tu marca, tu audiencia, tus retos y tus objetivos.</p></div></div>
+          <div class="process-row"><b>02</b><div><h3>Planeamos</h3><p>Definimos prioridades, mensajes y acciones acordes con tus metas.</p></div></div>
+          <div class="process-row"><b>03</b><div><h3>Creemos</h3><p>Desarrollamos piezas, campañas y experiencias con identidad propia.</p></div></div>
+          <div class="process-row"><b>04</b><div><h3>Medimos y optimizamos</h3><p>Revisamos los resultados y ajustamos el camino a partir de los datos.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="plans-bg" id="contacto">
+      <div class="container contact-grid">
+        <div class="contact-copy">
+          <div class="eyebrow">Hagámoslo realidad</div><h2>Cuéntanos qué quieres lograr.</h2>
+          <p>Comparte algunos detalles de tu proyecto. El equipo de VIGOR podrá conocer tus necesidades y preparar una propuesta adecuada.</p>
+          <div class="contact-line"><span>✦</span> Estrategia pensada para tu marca</div>
+          <div class="contact-line"><span>✦</span> Propuesta según tus objetivos</div>
+          <div class="contact-line"><span>✦</span> Comunicación clara desde el inicio</div>
+        </div>
+        <div class="contact-card">
+          <form id="quoteForm">
+            <div class="form-row">
+              <div><label for="name">Nombre *</label><input id="name" name="name" required placeholder="Tu nombre"></div>
+              <div><label for="company">Empresa o marca *</label><input id="company" name="company" required placeholder="Nombre de tu marca"></div>
+            </div>
+            <div class="form-row">
+              <div><label for="email">Correo electrónico *</label><input id="email" name="email" type="email" required placeholder="correo@ejemplo.com"></div>
+              <div><label for="phone">Teléfono / WhatsApp</label><input id="phone" name="phone" type="tel" placeholder="+57 ..."></div>
+            </div>
+            <div><label for="service">¿Qué necesitas? *</label><select id="service" name="service" required><option value="">Selecciona un servicio</option><option>Estrategia de marca</option><option>Diseño y contenido para redes</option><option>Gestión de redes sociales</option><option>Publicidad digital / pauta</option><option>Plan Básico</option><option>Plan Crecimiento</option><option>Plan Premium</option><option>Otro / asesoría</option></select></div>
+            <div><label for="details">Cuéntanos sobre tu proyecto</label><textarea id="details" name="details" placeholder="Objetivos, necesidades, fechas o cualquier detalle útil..."></textarea></div>
+            <button class="btn btn-primary" type="submit">Preparar solicitud ↗</button>
+            <p class="form-note">Demo inicial: al enviar, se abrirá tu aplicación de correo. Configura el correo receptor en el código antes de publicar.</p>
+            <div class="status" id="formStatus" role="status"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="container footer-inner"><a class="logo" href="#inicio">VIGOR<span>.</span></a><span>Estrategia · Creatividad · Performance</span><span>© <span id="year"></span> VIGOR. Todos los derechos reservados.</span></div></footer>
+
+  <button class="chat-toggle" id="chatToggle" aria-expanded="false">✦ Habla con VIGOR</button>
+  <aside class="chat-window" id="chatWindow" aria-label="Chat de atención al cliente">
+    <div class="chat-head"><div><strong>Asistente VIGOR</strong><small>Información sobre servicios y planes</small></div><button class="chat-close" id="chatClose" aria-label="Cerrar chat">×</button></div>
+    <div class="chat-messages" id="chatMessages" aria-live="polite"><div class="bubble bot">¡Hola! 👋 Soy el asistente virtual de VIGOR. Puedo orientarte sobre nuestros servicios y planes. ¿Qué te gustaría saber?</div></div>
+    <div class="chat-choices">
+      <button data-question="services">Servicios</button><button data-question="plans">Planes</button><button data-question="quote">Cotización</button><button data-question="contact">Contacto</button>
+    </div>
+    <form class="chat-input-row" id="chatForm"><input id="chatInput" aria-label="Escribe tu pregunta" placeholder="Escribe tu pregunta..." autocomplete="off"><button type="submit" aria-label="Enviar mensaje">➤</button></form>
+  </aside>
+
+  <script>
+    // CONFIGURACIÓN: cambia este correo por el correo oficial de VIGOR antes de publicar.
+    const CONTACT_EMAIL = "tu-correo@ejemplo.com";
+
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
+    menuBtn.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("show");
+      menuBtn.setAttribute("aria-expanded", String(isOpen));
+    });
+    navLinks.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+      navLinks.classList.remove("show");
+      menuBtn.setAttribute("aria-expanded", "false");
+    }));
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    document.querySelectorAll("[data-plan]").forEach(link => link.addEventListener("click", () => {
+      const plan = link.dataset.plan;
+      const service = document.getElementById("service");
+      const option = [...service.options].find(o => o.textContent === "Plan " + plan);
+      if (option) service.value = option.value;
+    }));
+
+    document.getElementById("quoteForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      if (!form.reportValidity()) return;
+      const data = new FormData(form);
+      const subject = encodeURIComponent("Solicitud de cotización VIGOR - " + data.get("company"));
+      const body = encodeURIComponent(
+        "Nueva solicitud para VIGOR\n\n" +
+        "Nombre: " + data.get("name") + "\n" +
+        "Empresa/marca: " + data.get("company") + "\n" +
+        "Correo: " + data.get("email") + "\n" +
+        "Teléfono: " + (data.get("phone") || "No indicado") + "\n" +
+        "Servicio: " + data.get("service") + "\n\n" +
+        "Detalles:\n" + (data.get("details") || "Sin detalles adicionales")
+      );
+      const status = document.getElementById("formStatus");
+      if (CONTACT_EMAIL === "tu-correo@ejemplo.com") {
+        status.style.display = "block";
+        status.textContent = "El formulario funciona, pero falta configurar el correo receptor. En el código, reemplaza CONTACT_EMAIL por el correo de VIGOR para que se prepare el mensaje.";
+        return;
+      }
+      status.style.display = "block";
+      status.textContent = "Se abrirá tu aplicación de correo para que revises y envíes la solicitud.";
+      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+    });
+
+    const chatToggle = document.getElementById("chatToggle");
+    const chatWindow = document.getElementById("chatWindow");
+    const chatMessages = document.getElementById("chatMessages");
+    const chatForm = document.getElementById("chatForm");
+    const chatInput = document.getElementById("chatInput");
+    function toggleChat(force) {
+      const open = typeof force === "boolean" ? force : !chatWindow.classList.contains("open");
+      chatWindow.classList.toggle("open", open);
+      chatToggle.setAttribute("aria-expanded", String(open));
+      if (open) chatInput.focus();
+    }
+    chatToggle.addEventListener("click", () => toggleChat());
+    document.getElementById("chatClose").addEventListener("click", () => toggleChat(false));
+
+    function addBubble(text, who) {
+      const bubble = document.createElement("div");
+      bubble.className = "bubble " + who;
+      bubble.textContent = text;
+      chatMessages.appendChild(bubble);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    const answers = {
+      services: "En VIGOR trabajamos en tres áreas:\n• Estrategia: identidad, planeación y audiencia.\n• Creatividad: diseño y contenido para redes.\n• Performance: pauta digital, gestión y análisis de resultados.\n\n¿Qué área te interesa?",
+      plans: "Tenemos tres planes:\n• Básico: 8–12 publicaciones al mes.\n• Crecimiento: redes sociales, pauta y reportes.\n• Premium: solución integral con estrategia y automatización.\n\nLos precios se cotizan según el alcance de cada proyecto.",
+      quote: "¡Con gusto! Completa el formulario de cotización en la sección Contacto. Cuéntanos sobre tu marca, el servicio que buscas y tus objetivos para preparar una propuesta.",
+      contact: "Puedes dejarnos tus datos en el formulario de la sección Contacto. Allí podrás indicar tu correo, teléfono y la información de tu proyecto para que el equipo pueda darle seguimiento.",
+      greeting: "¡Hola! 👋 Puedo ayudarte con información sobre los servicios, los planes o cómo solicitar una cotización. Escribe tu pregunta o elige una opción.",
+      price: "Los planes Básico, Crecimiento y Premium se cotizan según los objetivos y el alcance del trabajo. En la sección Planes puedes comparar qué incluye cada uno y solicitar una cotización.",
+      basic: "El plan Básico incluye entre 8 y 12 publicaciones al mes, diseño de contenido para redes y calendario de publicaciones. El precio se define según las necesidades de tu marca.",
+      crecimiento: "El plan Crecimiento incluye gestión de redes sociales, planeación de pauta digital y reportes de resultados. El precio se cotiza según el alcance.",
+      premium: "El plan Premium está pensado como solución integral: incluye servicios del plan Crecimiento, estrategia de marca avanzada y automatización según las necesidades del proyecto."
+    };
+    function answerQuestion(text) {
+      const q = text.toLowerCase();
+      if (/hola|buenas|buenos días|buenas tardes/.test(q)) return answers.greeting;
+      if (/servicio|hacen|ofrecen|redes|diseño|publicidad|pauta|marketing/.test(q)) return answers.services;
+      if (/plan básico|básico/.test(q)) return answers.basic;
+      if (/crecimiento/.test(q)) return answers.crecimiento;
+      if (/premium/.test(q)) return answers.premium;
+      if (/precio|precios|cuánto|cuesta|valor|tarifa|plan/.test(q)) return answers.price;
+      if (/cotiz|presupuesto|propuesta/.test(q)) return answers.quote;
+      if (/contact|correo|teléfono|whatsapp|hablar/.test(q)) return answers.contact;
+      return "Gracias por tu pregunta. Puedo orientarte sobre servicios, planes y cotizaciones. Si necesitas una propuesta específica, completa el formulario de Contacto para que podamos conocer tu proyecto.";
+    }
+    function sendChat(text) {
+      const clean = text.trim();
+      if (!clean) return;
+      addBubble(clean, "user");
+      chatInput.value = "";
+      window.setTimeout(() => addBubble(answerQuestion(clean), "bot"), 250);
+    }
+    chatForm.addEventListener("submit", event => { event.preventDefault(); sendChat(chatInput.value); });
+    document.querySelectorAll("[data-question]").forEach(button => button.addEventListener("click", () => {
+      const key = button.dataset.question;
+      const labels = { services: "¿Qué servicios ofrecen?", plans: "¿Qué planes tienen?", quote: "¿Cómo solicito una cotización?", contact: "¿Cómo los contacto?" };
+      sendChat(labels[key]);
+    }));
+  </script>
+</body>
+</html>
